@@ -27,7 +27,7 @@ namespace DTP_D17_hemtentamen
             do
             {
                 command = Program.ReadCommand(">");
-                if(command == "help")
+                if(Program.CommandString(command, "help"))
                 {
                     Console.WriteLine("help - display this help text");
                     Console.WriteLine("quit - quit the program");
