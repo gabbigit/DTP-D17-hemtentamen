@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
 
 namespace DTP_D17_hemtentamen
 {
@@ -32,6 +33,19 @@ namespace DTP_D17_hemtentamen
                 if (cmdWords[1] == expected) return true;
             }
             return false;
+        }
+        internal class TodoItem
+        {
+            public int status;
+            public int priority;
+            public string task;
+            public string taskDescription;
+
+            public TodoItem(int priority, string task)
+            {
+                this.priority = priority;
+                this.task = task;
+            }
         }
         static void Main(string[] args)
         {
