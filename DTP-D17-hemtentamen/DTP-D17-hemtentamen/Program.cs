@@ -34,6 +34,7 @@ namespace DTP_D17_hemtentamen
             }
             return false;
         }
+
         internal class TodoItem
         {
             public int status;
@@ -46,6 +47,11 @@ namespace DTP_D17_hemtentamen
                 this.priority = priority;
                 this.task = task;
             }
+        }
+     
+        internal class Todo
+        {
+            public static List<TodoItem> list = new List<TodoItem>();
         }
         static void Main(string[] args)
         {
