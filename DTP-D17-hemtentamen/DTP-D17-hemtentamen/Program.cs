@@ -20,6 +20,19 @@ namespace DTP_D17_hemtentamen
             }
             return false;
         }
+
+        static public bool HasArgument(string inputCommand, string expected)
+        {
+            string command = inputCommand.Trim();
+            if (command == "") return false;
+            else
+            {
+                string[] cmdWords = command.Split(' ');
+                if (cmdWords.Length < 2) return false;
+                if (cmdWords[1] == expected) return true;
+            }
+            return false;
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the todo list, write 'help' for help!");
@@ -27,10 +40,17 @@ namespace DTP_D17_hemtentamen
             do
             {
                 command = Program.ReadCommand(">");
-                if(Program.CommandString(command, "help"))
+                if (Program.CommandString(command, "help"))
                 {
                     Console.WriteLine("help - display this help text");
+                    Console.WriteLine("load /file/ - load a todo list");
                     Console.WriteLine("quit - quit the program");
+
+                }
+                else if (Program.CommandString(command, "load"))
+                { 
+                    //NYI: load file.lis - Usage: load /file/
+                    Console.WriteLine("load file.lis");
                 }
                 else
                 {
