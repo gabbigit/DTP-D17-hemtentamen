@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace DTP_D17_hemtentamen
 {
@@ -40,10 +41,11 @@ namespace DTP_D17_hemtentamen
             public int status;
             public int priority;
             public string task;
-            public string taskDescription;
 
-            public TodoItem(int priority, string task)
+
+            public TodoItem(int status, int priority, string task)
             {
+                this.status = status;
                 this.priority = priority;
                 this.task = task;
             }
@@ -53,7 +55,11 @@ namespace DTP_D17_hemtentamen
      
         internal class Todo
         {
-            public static List<TodoItem> list = new List<TodoItem>();
+            public static List<TodoItem> todoList = new List<TodoItem>();
+
+            public const int Active = 1;
+            public const int Waiting = 2;
+            public const int Completed = 3;
         }
         static void Main(string[] args)
         {
@@ -78,8 +84,13 @@ namespace DTP_D17_hemtentamen
                     int priority = Int32.Parse(Console.ReadLine());
                     Console.Write("Task?");
                     string task = Console.ReadLine();
-                    TodoItem t_item = new TodoItem(priority, task);
-                    //list.Add(t_item);
+                    Console.Write("Status of the task?");
+                    int status = Int32.Parse(Console.ReadLine());
+                    List<TodoItem> todoList = new List<TodoItem>();
+                    todoList.Add(new TodoItem(status,priority,task));
+                    Console.WriteLine($"Added todo item: {priority} {status} {task}");
+                    
+                    
                 }
                 else
                 {
