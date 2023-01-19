@@ -47,7 +47,9 @@ namespace DTP_D17_hemtentamen
                 this.priority = priority;
                 this.task = task;
             }
+
         }
+
      
         internal class Todo
         {
@@ -71,6 +73,13 @@ namespace DTP_D17_hemtentamen
                 { 
                     //NYI: load file.lis - Usage: load /file/
                     Console.WriteLine("load file.lis");
+                    Console.Write("Add a new todo item to the list: ");
+                    Console.Write("Priority?");
+                    int priority = Int32.Parse(Console.ReadLine());
+                    Console.Write("Task?");
+                    string task = Console.ReadLine();
+                    TodoItem t_item = new TodoItem(priority, task);
+                    //list.Add(t_item);
                 }
                 else
                 {
