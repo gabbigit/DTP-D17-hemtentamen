@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DTP_D17_hemtentamen
 {
@@ -72,6 +73,7 @@ namespace DTP_D17_hemtentamen
                 {
                     Console.WriteLine("help - display this help text");
                     Console.WriteLine("load /file/ - load a todo list");
+                    Console.WriteLine("list - list the todo list");
                     Console.WriteLine("quit - quit the program");
 
                 }
@@ -88,9 +90,11 @@ namespace DTP_D17_hemtentamen
                     int status = Int32.Parse(Console.ReadLine());
                     List<TodoItem> todoList = new List<TodoItem>();
                     todoList.Add(new TodoItem(status,priority,task));
-                    Console.WriteLine($"Added todo item: {priority} {status} {task}");
-                    
-                    
+                                       
+                }
+                else if(Program.CommandString(command, "list"))
+                {
+                    Console.WriteLine($"Things to do on the list: ");
                 }
                 else
                 {
