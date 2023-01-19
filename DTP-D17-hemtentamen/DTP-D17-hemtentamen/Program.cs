@@ -50,6 +50,13 @@ namespace DTP_D17_hemtentamen
                 this.priority = priority;
                 this.task = task;
             }
+            public TodoItem(string todoLine)
+            {
+                string[] field = todoLine.Split('|');
+                status = Int32.Parse(field[0]);
+                priority = Int32.Parse(field[1]);
+                task = field[2];
+            }
 
         }
 
@@ -58,9 +65,6 @@ namespace DTP_D17_hemtentamen
         {
             public static List<TodoItem> todoList = new List<TodoItem>();
 
-            public const int Active = 1;
-            public const int Waiting = 2;
-            public const int Completed = 3;
         }
         static void Main(string[] args)
         {
@@ -94,7 +98,21 @@ namespace DTP_D17_hemtentamen
                 }
                 else if(Program.CommandString(command, "list"))
                 {
-                    Console.WriteLine($"Things to do on the list: ");
+                    string todoFileName = "file.lis";
+                    Console.WriteLine($"Things to do on the list:{todoFileName}");
+                    StreamReader sr = new StreamReader(todoFileName);
+                    int numRead = 0;
+
+                    string line;
+                    while((line = sr.ReadLine()) != null)
+                    {
+                        TodoItem item = new TodoItem(line);
+                        Todo.todoList.Add(item);
+                        numRead++;
+                    }
+                    sr.Close();
+                    Console.WriteLine($"Läste {numRead} rader.");
+
                 }
                 else
                 {
