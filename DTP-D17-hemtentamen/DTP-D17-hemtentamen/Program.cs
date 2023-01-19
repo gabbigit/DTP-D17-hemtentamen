@@ -100,7 +100,7 @@ namespace DTP_D17_hemtentamen
                 {
                     string todoFileName = "file.lis";
                     Console.WriteLine($"Things to do on the list:{todoFileName}");
-                    StreamReader sr = new StreamReader(todoFileName);
+                    StreamReader sr = new StreamReader(todoFileName);//skapa fil
                     int numRead = 0;
 
                     string line;
