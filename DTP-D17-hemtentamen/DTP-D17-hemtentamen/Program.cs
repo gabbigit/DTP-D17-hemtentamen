@@ -8,31 +8,6 @@ namespace DTP_D17_hemtentamen
 {
     internal class Program
     {
-        internal class TodoItem
-        {
-            public int status;
-            public int priority;
-            public string task;
-
-
-            public TodoItem(int status, int priority, string task)
-            {
-                this.status = status;
-                this.priority = priority;
-                this.task = task;
-            }
-            public static string StatusToString(int status)
-            {
-                switch (status)
-                {
-                    case Active: return "active";
-                    case Waiting: return "waiting";
-
-                }
-            }
-
-
-        
         static public string ReadCommand(string prompt)
         {
             Console.Write(prompt);
@@ -64,7 +39,29 @@ namespace DTP_D17_hemtentamen
         }
         
 
-       
+        internal class TodoItem
+        {
+            public int status;
+            public int priority;
+            public string task;
+
+
+            public TodoItem(int status, int priority, string task)
+            {
+                this.status = status;
+                this.priority = priority;
+                this.task = task;
+            }
+
+            public TodoItem(string todoLine)
+            {
+                string[] field = todoLine.Split('|');
+                status = Int32.Parse(field[0]);
+                priority = Int32.Parse(field[1]);
+                task = field[2];
+            }
+
+        }
 
      
         internal class Todo
@@ -74,16 +71,19 @@ namespace DTP_D17_hemtentamen
             public const int Active = 1;
             public const int Waiting = 2;
             public const int Ready = 3;
-        }
-        public TodoItem(string todoLine)
-        {
-            string[] field = todoLine.Split('|');
-            status = Int32.Parse(field[0]);
-            priority = Int32.Parse(field[1]);
-            task = field[2];
+
+            public static string StatusToString(int status)
+            {
+                switch (status)
+                {
+                    case Active: return "active";
+                    case Waiting: return "waiting";
+                    case Ready: return "ready";
+                    default: return "(wrong input)";
+                }
+            }
         }
 
-        }
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the todo list, write 'help' for help!");
