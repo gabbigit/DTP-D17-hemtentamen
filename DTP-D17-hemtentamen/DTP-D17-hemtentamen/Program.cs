@@ -18,13 +18,14 @@ namespace DTP_D17_hemtentamen
         {
             switch (status)
             {
-                case Active: return "active";
-                case Waiting: return "waiting";
-                case Ready: return "ready";
-                default: return "(wrong input)";
+                case Active: return "Active";
+                case Waiting: return "Waiting";
+                case Ready: return "Ready";
+                default: return "(Wrong input)";
             }
         }
- 
+        
+        //set / num/  /status/
         public class TodoItem
         {
             public int status;
@@ -45,12 +46,13 @@ namespace DTP_D17_hemtentamen
                 priority = Int32.Parse(field[1]);
                 task = field[2];
             }
-            public void PrintList()
+            public void Print()
             {
                 string statusString = StatusToString(status);
                 Console.Write($"|{statusString,-12}|{priority,-6}|{task,-20}|");
                 Console.WriteLine();
             }
+            
         }
         static public string ReadCommand(string prompt)
         {
@@ -91,11 +93,15 @@ namespace DTP_D17_hemtentamen
                 command = Todo.ReadCommand(">");
                 if (Todo.CommandString(command, "help"))
                 {
-                    Console.WriteLine("help - display this help text");
-                    Console.WriteLine("load /file/ - load a todo list");
-                    Console.WriteLine("list - list the todo list");
-                    Console.WriteLine("new - add a new task to the list");
-                    Console.WriteLine("quit - quit the program");
+                    Console.WriteLine("help         - display this help text");
+                    Console.WriteLine("load file    - load a todo list");
+                    Console.WriteLine("list         - list the todo list");
+                    Console.WriteLine("list ready   - list the todo list");
+                    Console.WriteLine("list waiting - list the todo list");
+                    Console.WriteLine("list wactive - list the todo list");
+                    Console.WriteLine("new          - add a new task to the list");
+                    Console.WriteLine("save         - save new task to the todo list");
+                    Console.WriteLine("quit         - quit the program");
 
                 }
                 else if (Todo.CommandString(command, "load"))
@@ -107,42 +113,41 @@ namespace DTP_D17_hemtentamen
                 else if (Todo.CommandString(command, "list"))
                 {
                    
-                    foreach ( TodoItem item in todoList)
+                    foreach (TodoItem item in todoList)
                     {
-                        item.PrintList();
+                        item.Print();
                     }
 
                 }
-                else if (Todo.CommandString(command, "list ready")) // Fix command function more than 1 word command
+                else if (Todo.HasArgument(command, "list ready"))  //NYI
                 {
-                  
-                    foreach (TodoItem item in todoList)
-                      {
-                        if (item.status == 3)
-                          {
-                            item.PrintList();
-                          }
-                      }
-                }
-                else if (Todo.CommandString(command, "list waiting")) // Fix command function more than 1 word command
-                {
-
                     foreach (TodoItem item in todoList)
                     {
-                        if (item.status == 2)
+                        if (item.status == 3)
                         {
-                            item.PrintList();
+                           item.Print();
                         }
                     }
                 }
-                else if (Todo.CommandString(command, "list active")) // Fix command function more than 1 word command
+                else if (Todo.CommandString(command, "list waiting")) //NYI
                 {
 
                     foreach (TodoItem item in todoList)
                     {
-                        if (item.status == 1)
+                        if (Waiting == 2)
                         {
-                            item.PrintList();
+                            item.Print();
+                        }
+                    }
+                }
+                else if (Todo.CommandString(command, "list active")) //NYI
+                {
+
+                    foreach (TodoItem item in todoList)
+                    {
+                        if (Active == 1)
+                        {
+                            item.Print();
                         }
                     }
                 }
@@ -161,6 +166,22 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
                     Console.WriteLine();
+                }
+                else if (Todo.CommandString(command, "save"))
+                {
+                    Console.WriteLine("save file2.lis");
+                    string todoFileName = "file2.lis";
+                    StreamWriter sw = new StreamWriter(todoFileName);
+                    {
+                        foreach (TodoItem item in todoList)
+                        {
+                            if (item != null)
+                            {
+                                sw.WriteLine(item.ToString());
+                            }
+                        }
+                    }
+
                 }
                 else
                 {
