@@ -24,9 +24,34 @@ namespace DTP_D17_hemtentamen
                 default: return "(wrong input)";
             }
         }
-        private static object status;
-        private static object priority;
-        private static object task;
+ 
+        public class TodoItem
+        {
+            public int status;
+            public int priority;
+            public string task;
+
+            public TodoItem(int priority, string task)
+            {
+                this.status = Active;
+                this.priority = priority;
+                this.task = task;
+            }
+
+            public TodoItem(string todoLine)
+            {
+                string[] field = todoLine.Split('|');
+                status = Int32.Parse(field[0]);
+                priority = Int32.Parse(field[1]);
+                task = field[2];
+            }
+            public void PrintList()
+            {
+                string statusString = StatusToString(status);
+                Console.Write($"|{statusString,-12}|{priority,-6}|{task,-20}|");
+                Console.WriteLine();
+            }
+        }
         static public string ReadCommand(string prompt)
         {
             Console.Write(prompt);
@@ -56,31 +81,6 @@ namespace DTP_D17_hemtentamen
             }
             return false;
         }
-        
-
-        internal class TodoItem
-        {
-            public int status;
-            public int priority;
-            public string task;
-
-
-            public TodoItem(int status, int priority, string task)
-            {
-                this.status = status;
-                this.priority = priority;
-                this.task = task;
-            }
-
-            public TodoItem(string todoLine)
-            {
-                string[] field = todoLine.Split('|');
-                status = Int32.Parse(field[0]);
-                priority = Int32.Parse(field[1]);
-                task = field[2];
-            }
-
-        }
 
         static void Main(string[] args)
         {
@@ -107,10 +107,10 @@ namespace DTP_D17_hemtentamen
                 }
                 else if (Todo.CommandString(command, "list"))
                 {
-                    //PrintList();
-                    foreach ( TodoItem todo in todoList)
+                    
+                    foreach ( TodoItem item in todoList)
                     {
-                        Console.WriteLine(todo);
+                        item.PrintList();
                     }
 
                 }
@@ -123,7 +123,7 @@ namespace DTP_D17_hemtentamen
                     string task = Console.ReadLine();
                     Console.Write("Status of the task?");
                     int status = Int32.Parse(Console.ReadLine());
-                    TodoItem item = new TodoItem(priority, status, task);
+                    TodoItem item = new TodoItem(priority, task);
                     todoList.Add(item);
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
@@ -154,14 +154,6 @@ namespace DTP_D17_hemtentamen
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
         }
-        private static void PrintList()
-        {
-         Console.WriteLine($"|status     |priority   |task          |");
-         Console.WriteLine($"|-----------|-----------|--------------|");
-         Console.WriteLine($"|{status}   |{priority} |{task}        |");
-         Console.WriteLine();
-         Console.WriteLine("|--------------------------------------|");
-         
-        }
+        
     }
 }
