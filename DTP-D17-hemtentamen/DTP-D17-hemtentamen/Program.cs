@@ -9,6 +9,9 @@ namespace DTP_D17_hemtentamen
     internal class Program
     {
         private static object todoList;
+        private static object status;
+        private static object priority;
+        private static object task;
         static public string ReadCommand(string prompt)
         {
             Console.Write(prompt);
@@ -97,6 +100,7 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine("help - display this help text");
                     Console.WriteLine("load /file/ - load a todo list");
                     Console.WriteLine("list - list the todo list");
+                    Console.WriteLine("new - add a new task to the list");
                     Console.WriteLine("quit - quit the program");
 
                 }
@@ -104,11 +108,12 @@ namespace DTP_D17_hemtentamen
                 {
                     //NYI: load file.lis - Usage: load /file/
                     Console.WriteLine("load file.lis");
-                 
+                    ReadListFromFile();
+
                 }
                 else if (Program.CommandString(command, "list"))
                 {
-                    ReadListFromFile();
+                    PrintList();
 
                 }
                 else if (Program.CommandString(command, "new")) 
@@ -121,7 +126,7 @@ namespace DTP_D17_hemtentamen
                     Console.Write("Status of the task?");
                     int status = Int32.Parse(Console.ReadLine());
                     TodoItem item = new TodoItem(priority, status, task);
-                    todoList.Add(item);
+                   // todoList.Add(item);
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
                     Console.WriteLine();
@@ -150,6 +155,15 @@ namespace DTP_D17_hemtentamen
             }
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
+        }
+        private static void PrintList(bool head, bool verbose)
+        {
+         Console.WriteLine($"|status     |priority   |task          |");
+         Console.WriteLine($"|-----------|-----------|--------------|");
+         Console.WriteLine($"|{status}   |{priority} |{task}        |");
+         Console.WriteLine();
+         Console.WriteLine("|--------------------------------------|");
+         
         }
     }
 }
