@@ -100,20 +100,53 @@ namespace DTP_D17_hemtentamen
                 }
                 else if (Todo.CommandString(command, "load"))
                 {
-                    //NYI: load file.lis - Usage: load /file/
                     Console.WriteLine("load file.lis");
                     ReadListFromFile();
 
                 }
                 else if (Todo.CommandString(command, "list"))
                 {
-                    
+                   
                     foreach ( TodoItem item in todoList)
                     {
                         item.PrintList();
                     }
 
                 }
+                else if (Todo.CommandString(command, "list ready")) // Fix command function more than 1 word command
+                {
+                  
+                    foreach (TodoItem item in todoList)
+                      {
+                        if (item.status == 3)
+                          {
+                            item.PrintList();
+                          }
+                      }
+                }
+                else if (Todo.CommandString(command, "list waiting")) // Fix command function more than 1 word command
+                {
+
+                    foreach (TodoItem item in todoList)
+                    {
+                        if (item.status == 2)
+                        {
+                            item.PrintList();
+                        }
+                    }
+                }
+                else if (Todo.CommandString(command, "list active")) // Fix command function more than 1 word command
+                {
+
+                    foreach (TodoItem item in todoList)
+                    {
+                        if (item.status == 1)
+                        {
+                            item.PrintList();
+                        }
+                    }
+                }
+
                 else if (Todo.CommandString(command, "new")) 
                 {
                     Console.Write("Add a new todo item to the list: ");
@@ -140,7 +173,6 @@ namespace DTP_D17_hemtentamen
         private static void ReadListFromFile()
         {
             string todoFileName = "file.lis";
-            Console.WriteLine($"Things to do on the list:{todoFileName}");
             StreamReader sr = new StreamReader(todoFileName);
             int numRead = 0;
 
