@@ -8,6 +8,7 @@ namespace DTP_D17_hemtentamen
 {
     internal class Program
     {
+        private static object todoList;
         static public string ReadCommand(string prompt)
         {
             Console.Write(prompt);
@@ -100,9 +101,18 @@ namespace DTP_D17_hemtentamen
 
                 }
                 else if (Program.CommandString(command, "load"))
-                { 
+                {
                     //NYI: load file.lis - Usage: load /file/
                     Console.WriteLine("load file.lis");
+                 
+                }
+                else if (Program.CommandString(command, "list"))
+                {
+                    ReadListFromFile();
+
+                }
+                else if (Program.CommandString(command, "new")) 
+                {
                     Console.Write("Add a new todo item to the list: ");
                     Console.Write("Priority?");
                     int priority = Int32.Parse(Console.ReadLine());
@@ -110,27 +120,11 @@ namespace DTP_D17_hemtentamen
                     string task = Console.ReadLine();
                     Console.Write("Status of the task?");
                     int status = Int32.Parse(Console.ReadLine());
-                    List<TodoItem> todoList = new List<TodoItem>();
-                    todoList.Add(new TodoItem(status,priority,task));
-                                       
-                }
-                else if(Program.CommandString(command, "list"))
-                {
-                    string todoFileName = "file.lis";
-                    Console.WriteLine($"Things to do on the list:{todoFileName}");
-                    StreamReader sr = new StreamReader(todoFileName);
-                    int numRead = 0;
-
-                    string line;
-                    while((line = sr.ReadLine()) != null)
-                    {
-                        TodoItem item = new TodoItem(line);
-                        Todo.todoList.Add(item);
-                        numRead++;
-                    }
-                    sr.Close();
-                    Console.WriteLine($"Läste {numRead} rader.");
-
+                    TodoItem item = new TodoItem(priority, status, task);
+                    todoList.Add(item);
+                    Console.WriteLine();
+                    Console.WriteLine("Added new task to the list!");
+                    Console.WriteLine();
                 }
                 else
                 {
@@ -138,6 +132,24 @@ namespace DTP_D17_hemtentamen
                 }
             }
             while (command != "quit");   
+        }
+
+        private static void ReadListFromFile()
+        {
+            string todoFileName = "file.lis";
+            Console.WriteLine($"Things to do on the list:{todoFileName}");
+            StreamReader sr = new StreamReader(todoFileName);
+            int numRead = 0;
+
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                TodoItem item = new TodoItem(line);
+                Todo.todoList.Add(item);
+                numRead++;
+            }
+            sr.Close();
+            Console.WriteLine($"Läste {numRead} rader.");
         }
     }
 }
