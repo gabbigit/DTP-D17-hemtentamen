@@ -6,9 +6,24 @@ using System;
 
 namespace DTP_D17_hemtentamen
 {
-    internal class Program
+    internal class Todo
     {
-        private static object todoList;
+        public static List<TodoItem> todoList = new List<TodoItem>();
+
+        public const int Active = 1;
+        public const int Waiting = 2;
+        public const int Ready = 3;
+
+        public static string StatusToString(int status)
+        {
+            switch (status)
+            {
+                case Active: return "active";
+                case Waiting: return "waiting";
+                case Ready: return "ready";
+                default: return "(wrong input)";
+            }
+        }
         private static object status;
         private static object priority;
         private static object task;
@@ -67,35 +82,14 @@ namespace DTP_D17_hemtentamen
 
         }
 
-     
-        internal class Todo
-        {
-            public static List<TodoItem> todoList = new List<TodoItem>();
-
-            public const int Active = 1;
-            public const int Waiting = 2;
-            public const int Ready = 3;
-
-            public static string StatusToString(int status)
-            {
-                switch (status)
-                {
-                    case Active: return "active";
-                    case Waiting: return "waiting";
-                    case Ready: return "ready";
-                    default: return "(wrong input)";
-                }
-            }
-        }
-
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the todo list, write 'help' for help!");
             string command;
             do
             {
-                command = Program.ReadCommand(">");
-                if (Program.CommandString(command, "help"))
+                command = Todo.ReadCommand(">");
+                if (Todo.CommandString(command, "help"))
                 {
                     Console.WriteLine("help - display this help text");
                     Console.WriteLine("load /file/ - load a todo list");
@@ -104,19 +98,23 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine("quit - quit the program");
 
                 }
-                else if (Program.CommandString(command, "load"))
+                else if (Todo.CommandString(command, "load"))
                 {
                     //NYI: load file.lis - Usage: load /file/
                     Console.WriteLine("load file.lis");
                     ReadListFromFile();
 
                 }
-                else if (Program.CommandString(command, "list"))
+                else if (Todo.CommandString(command, "list"))
                 {
-                    PrintList();
+                    //PrintList();
+                    foreach ( TodoItem todo in todoList)
+                    {
+                        Console.WriteLine(todo);
+                    }
 
                 }
-                else if (Program.CommandString(command, "new")) 
+                else if (Todo.CommandString(command, "new")) 
                 {
                     Console.Write("Add a new todo item to the list: ");
                     Console.Write("Priority?");
@@ -126,7 +124,7 @@ namespace DTP_D17_hemtentamen
                     Console.Write("Status of the task?");
                     int status = Int32.Parse(Console.ReadLine());
                     TodoItem item = new TodoItem(priority, status, task);
-                   // todoList.Add(item);
+                    todoList.Add(item);
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
                     Console.WriteLine();
@@ -156,7 +154,7 @@ namespace DTP_D17_hemtentamen
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
         }
-        private static void PrintList(bool head, bool verbose)
+        private static void PrintList()
         {
          Console.WriteLine($"|status     |priority   |task          |");
          Console.WriteLine($"|-----------|-----------|--------------|");
