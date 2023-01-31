@@ -24,7 +24,7 @@ namespace DTP_D17_hemtentamen
                 default: return "(Wrong input)";
             }
         }
-        
+
         //set / num/  /status/
         public class TodoItem
         {
@@ -52,7 +52,7 @@ namespace DTP_D17_hemtentamen
                 Console.Write($"|{statusString,-12}|{priority,-6}|{task,-20}|");
                 Console.WriteLine();
             }
-            
+
         }
         static public string ReadCommand(string prompt)
         {
@@ -98,7 +98,7 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine("list         - list the todo list");
                     Console.WriteLine("list ready   - list the todo list");
                     Console.WriteLine("list waiting - list the todo list");
-                    Console.WriteLine("list wactive - list the todo list");
+                    Console.WriteLine("list active  - list the todo list");
                     Console.WriteLine("new          - add a new task to the list");
                     Console.WriteLine("save         - save new task to the todo list");
                     Console.WriteLine("quit         - quit the program");
@@ -112,7 +112,7 @@ namespace DTP_D17_hemtentamen
                 }
                 else if (Todo.CommandString(command, "list"))
                 {
-                   
+
                     foreach (TodoItem item in todoList)
                     {
                         item.Print();
@@ -121,11 +121,12 @@ namespace DTP_D17_hemtentamen
                 }
                 else if (Todo.HasArgument(command, "list ready"))  //NYI
                 {
-                    foreach (TodoItem item in todoList)
-                    {
-                        if (item.status == 3)
+                   foreach (TodoItem item in todoList)
+                   {
+
+                        if (Todo.Ready == 3)
                         {
-                           item.Print();
+                            item.Print();
                         }
                     }
                 }
@@ -134,7 +135,7 @@ namespace DTP_D17_hemtentamen
 
                     foreach (TodoItem item in todoList)
                     {
-                        if (Waiting == 2)
+                        if (Todo.Waiting == 2)
                         {
                             item.Print();
                         }
@@ -145,14 +146,14 @@ namespace DTP_D17_hemtentamen
 
                     foreach (TodoItem item in todoList)
                     {
-                        if (Active == 1)
+                        if (Todo.Active == 1)
                         {
                             item.Print();
                         }
                     }
                 }
 
-                else if (Todo.CommandString(command, "new")) 
+                else if (Todo.CommandString(command, "new"))
                 {
                     Console.Write("Add a new todo item to the list: ");
                     Console.Write("Priority?");
@@ -188,7 +189,7 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine("Goodbye!");
                 }
             }
-            while (command != "quit");   
+            while (command != "quit");
         }
 
         private static void ReadListFromFile()
@@ -207,6 +208,6 @@ namespace DTP_D17_hemtentamen
             sr.Close();
             Console.WriteLine($"Läste {numRead} rader.");
         }
-        
+
     }
 }
