@@ -3,12 +3,13 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace DTP_D17_hemtentamen
 {
     internal class Todo
     {
-        public static List<TodoItem> todoList = new List<TodoItem>();
+        public static List<TodoItem> list = new List<TodoItem>();
 
         public const int Active = 1;
         public const int Waiting = 2;
@@ -18,9 +19,9 @@ namespace DTP_D17_hemtentamen
         {
             switch (status)
             {
-                case Active: return "Active";
-                case Waiting: return "Waiting";
-                case Ready: return "Ready";
+                case Active: return "active";
+                case Waiting: return "waiting";
+                case Ready: return "ready";
                 default: return "(Wrong input)";
             }
         }
@@ -34,7 +35,7 @@ namespace DTP_D17_hemtentamen
 
             public TodoItem(int priority, string task)
             {
-                this.status = Active;
+                this.status = status;
                 this.priority = priority;
                 this.task = task;
             }
@@ -46,12 +47,14 @@ namespace DTP_D17_hemtentamen
                 priority = Int32.Parse(field[1]);
                 task = field[2];
             }
+
             public void Print()
             {
                 string statusString = StatusToString(status);
                 Console.Write($"|{statusString,-12}|{priority,-6}|{task,-20}|");
                 Console.WriteLine();
             }
+            
 
         }
         static public string ReadCommand(string prompt)
@@ -113,27 +116,27 @@ namespace DTP_D17_hemtentamen
                 else if (Todo.CommandString(command, "list"))
                 {
 
-                    foreach (TodoItem item in todoList)
+                    foreach (TodoItem item in list)
                     {
                         item.Print();
                     }
 
                 }
-                else if (Todo.HasArgument(command, "list ready"))  //NYI
+                else if (HasArgument(command, "list ready"))  //NYI
                 {
-                   foreach (TodoItem item in todoList)
-                   {
-
-                        if (Todo.Ready == 3)
+                    foreach (TodoItem item in list)
+                    {
+                        if(item.status == 3) 
                         {
                             item.Print();
                         }
+                        
                     }
                 }
                 else if (Todo.CommandString(command, "list waiting")) //NYI
                 {
 
-                    foreach (TodoItem item in todoList)
+                    foreach (TodoItem item in list)
                     {
                         if (Todo.Waiting == 2)
                         {
@@ -144,7 +147,7 @@ namespace DTP_D17_hemtentamen
                 else if (Todo.CommandString(command, "list active")) //NYI
                 {
 
-                    foreach (TodoItem item in todoList)
+                    foreach (TodoItem item in list)
                     {
                         if (Todo.Active == 1)
                         {
@@ -163,7 +166,7 @@ namespace DTP_D17_hemtentamen
                     Console.Write("Status of the task?");
                     int status = Int32.Parse(Console.ReadLine());
                     TodoItem item = new TodoItem(priority, task);
-                    todoList.Add(item);
+                    list.Add(item);
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
                     Console.WriteLine();
@@ -174,7 +177,7 @@ namespace DTP_D17_hemtentamen
                     string todoFileName = "file2.lis";
                     StreamWriter sw = new StreamWriter(todoFileName);
                     {
-                        foreach (TodoItem item in todoList)
+                        foreach (TodoItem item in list)
                         {
                             if (item != null)
                             {
@@ -202,7 +205,7 @@ namespace DTP_D17_hemtentamen
             while ((line = sr.ReadLine()) != null)
             {
                 TodoItem item = new TodoItem(line);
-                Todo.todoList.Add(item);
+                list.Add(item);
                 numRead++;
             }
             sr.Close();
