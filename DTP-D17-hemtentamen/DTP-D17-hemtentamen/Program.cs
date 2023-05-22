@@ -26,14 +26,13 @@ namespace DTP_D17_hemtentamen
             }
         }
 
-        //set / num/  /status/
         public class TodoItem
         {
             public int status;
             public int priority;
             public string task;
 
-            public TodoItem(int priority, string task)
+            public TodoItem(int priority, string task, int status)
             {
                 this.status = status;
                 this.priority = priority;
@@ -55,36 +54,14 @@ namespace DTP_D17_hemtentamen
                 Console.WriteLine();
             }
             
-
-        }
-        static public string ReadCommand(string prompt)
-        {
-            Console.Write(prompt);
-            return Console.ReadLine();
-        }
-        static public bool CommandString(string inputCommand, string expected)
-        {
-            string command = inputCommand.Trim();
-            if (command == "") return false;
-            else
+            /*
+             public override string ToString()
             {
-                string[] cmdWords = command.Split(' ');
-                if (cmdWords[0] == expected) return true;
+                return $"{status}|{priority}|{task}";
             }
-            return false;
-        }
+             
+             */
 
-        static public bool HasArgument(string inputCommand, string expected)
-        {
-            string command = inputCommand.Trim();
-            if (command == "") return false;
-            else
-            {
-                string[] cmdWords = command.Split(' ');
-                if (cmdWords.Length < 2) return false;
-                if (cmdWords[1] == expected) return true;
-            }
-            return false;
         }
 
         static void Main(string[] args)
@@ -112,6 +89,7 @@ namespace DTP_D17_hemtentamen
                     Console.WriteLine("load file.lis");
                     ReadListFromFile();
 
+
                 }
                 else if (Todo.CommandString(command, "list"))
                 {
@@ -122,34 +100,34 @@ namespace DTP_D17_hemtentamen
                     }
 
                 }
-                else if (HasArgument(command, "list ready"))  //NYI
+                else if (Todo.CommandString(command, "list ready"))  
                 {
                     foreach (TodoItem item in list)
                     {
-                        if(item.status == 3) 
+                        if(item.status == Ready) 
                         {
                             item.Print();
                         }
                         
                     }
                 }
-                else if (Todo.CommandString(command, "list waiting")) //NYI
+                else if (Todo.CommandString(command, "list waiting")) 
                 {
 
                     foreach (TodoItem item in list)
                     {
-                        if (Todo.Waiting == 2)
+                        if (item.status == Waiting)
                         {
                             item.Print();
                         }
                     }
                 }
-                else if (Todo.CommandString(command, "list active")) //NYI
+                else if (Todo.CommandString(command, "list active")) 
                 {
 
                     foreach (TodoItem item in list)
                     {
-                        if (Todo.Active == 1)
+                        if (item.status == Active)
                         {
                             item.Print();
                         }
@@ -159,13 +137,13 @@ namespace DTP_D17_hemtentamen
                 else if (Todo.CommandString(command, "new"))
                 {
                     Console.Write("Add a new todo item to the list: ");
-                    Console.Write("Priority?");
+                    Console.Write("Priority: ");
                     int priority = Int32.Parse(Console.ReadLine());
-                    Console.Write("Task?");
+                    Console.Write("Task: ");
                     string task = Console.ReadLine();
-                    Console.Write("Status of the task?");
+                    Console.Write("Status of the task: ");
                     int status = Int32.Parse(Console.ReadLine());
-                    TodoItem item = new TodoItem(priority, task);
+                    TodoItem item = new TodoItem(priority, task, status);
                     list.Add(item);
                     Console.WriteLine();
                     Console.WriteLine("Added new task to the list!");
@@ -195,6 +173,35 @@ namespace DTP_D17_hemtentamen
             while (command != "quit");
         }
 
+        static public string ReadCommand(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine();
+        }
+        static public bool CommandString(string inputCommand, string expected)
+        {
+            string command = inputCommand.Trim();
+            if (command == "") return false;
+            else
+            {
+                string[] cmdWords = command.Split(' ');
+                if (cmdWords[0] == expected) return true;
+            }
+            return false;
+        }
+
+        static public bool HasArgument(string inputCommand, string expected)
+        {
+            string command = inputCommand.Trim();
+            if (command == "") return false;
+            else
+            {
+                string[] cmdWords = command.Split(' ');
+                if (cmdWords.Length < 2) return false;
+                if (cmdWords[1] == expected) return true;
+            }
+            return false;
+        }
         private static void ReadListFromFile()
         {
             string todoFileName = "file.lis";
